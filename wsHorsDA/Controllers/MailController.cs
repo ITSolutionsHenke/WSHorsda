@@ -17,9 +17,10 @@ namespace HorsDA
       [HttpGet]
       public string SendMail([FromRoute] string Addr)
       {
-         string Body = $"To ensure you receive our future emails such as maintenance notices and renewal notices, please add us to your contact list.\n\nHere is your code: {Addr}\n\n";
+         string Code = CRC16.ComputeChecksum("A" + Addr + "O").ToString("X");
+         string Body = $"Hello,\nHere is your email verification code: {Code}\n\nRegards\nThe HorsDA team\n\nTo ensure you receive our future emails such as maintenance notices and renewal notices, please add us to your contact list.";
 
-         return Send(Addr, "HorsDA Test Mail", Body );
+         return Send(Addr, "HorsDA eMail verification", Body );
       }
 
       private string Send(string email, string subject, string body)
